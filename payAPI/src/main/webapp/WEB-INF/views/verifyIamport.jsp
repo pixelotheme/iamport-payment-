@@ -8,11 +8,14 @@
 <!-- 아래 제이쿼리는 1.0이상이면 원하는 버전을 사용하셔도 무방합니다. -->
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<!-- 아임포트 api -->
+<!-- 아임포트 api 
+결제가 필요한 곳에 아임 포트의 한 줄 자바스크립트 라이브러리를 추가해줘야 합니다. 이 라이브러리를 통해 window.IMP변수에 접근이 가능해집니다.-->
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 <script type="text/javascript">
 	//api 스크립트
+	//여기서 중요하게 볼 부분은 IMP.init과 PG입니다. 
+	//IMP.init에 들어갈 인자는 위에서 복사한 가맹점 식별코드를 넣는 것이며, PG는 또한 위에서 설정한 원하는 PG사를 넣어주시면 됩니다.
 	function iamport() {
 		//가맹점 식별코드
 		IMP.init('imp80268540');
