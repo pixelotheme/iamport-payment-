@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- HikariCP 설정 객체 생성  connection 만들어서 연결시켜주는 자동화 프로그램
+	태그가 자동으로 안나오면 위에 빈설정이 안된것이다
+	-->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- property : setter를 이용한 DI 적용 -->
+<!-- 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!-- 		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" /> -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"/>
+	
+
+		<property name="username" value="java00" />
+		<property name="password" value="java00" />
+	</bean>
+	
+	<!-- HikariCP로 데이터 가져오기(DataSource) 객체 생성 -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<!-- 설정부분은 위에  생성한 설정 객체 사용 -->
+		<!-- constructor-arg : 생성자를 이용한 DI 적용 -->
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+	
+	<!-- MyBatis-Spring : MyBatis와 Spring을 연결해 주는 객체 : dataSource에서 con을 가져오는 것으로 만들어야 한다. 객체 생성 
+	sql문을 통해 쿼리를 생성시킴 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- property : setter를 이용한 DI 적용 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- 	dao를 자동으로 생성시킨다 -->
+	<mybatis-spring:scan base-package="com.pixelo"/>
+	
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- @Controller, @Service, @Repository, @Component, @RestController - 자동생성하지 위해서 찾는 위치를 지정한다. 위치와 아래 위치를 다 찾아서 생성과 DI를 해준다. -->
+	<!-- URL과 상관이 없는 객체  , java 객체를 자동으로 생성시킨다-->
+	<context:component-scan base-package="com.pixelo"></context:component-scan>
+</beans>

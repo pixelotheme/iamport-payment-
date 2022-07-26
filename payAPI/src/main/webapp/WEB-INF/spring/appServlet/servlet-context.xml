@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model 
+	mvc를 생략해서 쓰고있다 xmlns 기본네임 스페이스가 mvc로 되어있어서-
+	@Controller 라고 쓰면 자동으로 생성된다 단, myapp 아래에 있어야 생성된다-->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory 
+	mvc를 생략해서 쓰고있다 xmlns 기본네임 스페이스가 mvc로 되어있어서
+	mapping 해주고싶은 폴더를 열어줄수있다 ex) upload, css ....
+	//접근할수있는곳 지정,  webapp 에는 접근할수 없다
+	-->
+	<resources mapping="/resources/**" location="/resources/" />
+	
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory
+	 beans 로 선언된것중에 설정해서 쓰겠다 -> 객체라고 한다
+	 setter가 있다 bean으로 태그넣으면 바로 생성된다 , prefix 앞에붙는다, suffix 뒤에붙는다
+	 디스패쳐만들때 url jsp 보낼때 쓰는것
+	 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- com.webjjang 만 쓰면 바로 아래 안만들어도 자동으로 생성된다 -->
+	<context:component-scan base-package="com.pixelo" />
+	
+	
+	
+</beans:beans>
