@@ -24,10 +24,13 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
+import lombok.extern.log4j.Log4j;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
+@Log4j
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -62,7 +65,7 @@ public class HomeController {
 	@RequestMapping(value="/verifyIamport/{imp_uid}", method = RequestMethod.POST)
 	public IamportResponse<Payment> paymentByImpUid(Model model, Locale locale, HttpSession session
 			, @PathVariable(value= "imp_uid") String imp_uid) throws IamportResponseException, IOException{	
-			
+			log.info("인증번호가 넘어가는듯"+imp_uid);
 		//paymentByImpUid 함수는 아임포트서버에서 imp_uid(거래 고유번호)를 검사하여, 데이터를 보내줍니다.
 		return api.paymentByImpUid(imp_uid);
 	}
